@@ -1,0 +1,29 @@
+{
+  "name": "hacxlerate-kampus-vc",
+  "version": "1.0.0",
+  "description": "AI-powered content creator marketplace connecting creators and brands",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "build:backend": "npm run build --workspace=backend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "build": "npm run build:backend && npm run build:frontend",
+    "test:backend": "npm run test --workspace=backend",
+    "test:frontend": "npm run test --workspace=frontend",
+    "test": "npm run test:backend && npm run test:frontend"
+  },
+  "keywords": [
+    "creator-economy",
+    "marketplace",
+    "mern",
+    "ai",
+    "content-creation"
+  ],
+  "author": "HacXLerate Team",
+  "license": "UNLICENSED"
+}
