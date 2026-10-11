@@ -14,6 +14,12 @@ import {
   MessageAttachment,
   NotificationData,
   ReportReason,
+  AIProviderStatus,
+  AIUsageStats,
+  GenerateContentRequest,
+  GeneratedResult,
+  ContentDraftData,
+  AIContentType,
 } from '../types';
 
 const API_BASE = '/api';
@@ -387,4 +393,79 @@ export const api = {
     request<{ success: boolean; message: string }>(`/notifications/${id}`, {
       method: 'DELETE',
     }),
+
+  // Phase 5: AI Content Studio & Drafts
+  getAIStatus: () =>
+    request<{ success: boolean; status: AIProviderStatus; usage: AIUsageStats }>('/ai/status'),
+
+  generateAIContent: (data: GenerateContentRequest) =>
+    request<{ success: boolean; result: GeneratedResult }>('/ai/generate', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  transformAIContent: (data: {
+    content: string;
+    action: 'shorten' | 'expand' | 'tone_change';
+    targetTone?: string;
+    platform?: string;
+  }) =>
+    request<{
+      success: boolean;
+      transformed: { content: string; provider: string; mode: string };
+    }>('/ai/transform', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  saveAIDraft: (data: {
+    draftId?: string;
+    title?: string;
+    contentType?: AIContentType;
+    platform?: string;
+    tone?: string;
+    brandVoice?: string;
+    targetAudience?: string;
+    language?: string;
+    inputPrompt?: string;
+    campaignId?: string;
+    currentContent: string;
+    metadata?: any;
+    tags?: string[];
+    revisionAction?: string;
+    revisionNote?: string;
+  }) =>
+    request<{ success: boolean; message: string; draft: ContentDraftData }>('/ai/drafts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  getAIDrafts: (params?: {
+    page?: number;
+    limit?: number;
+    contentType?: string;
+    isFavorite?: boolean;
+    search?: string;
+  }) =>
+    request<{
+      success: boolean;
+      drafts: ContentDraftData[];
+      pagination: PaginationData;
+    }>(`/ai/drafts${toQuery(params)}`),
+
+  getAIDraftById: (id: string) =>
+    request<{ success: boolean; draft: ContentDraftData }>(`/ai/drafts/${id}`),
+
+  deleteAIDraft: (id: string) =>
+    request<{ success: boolean; message: string }>(`/ai/drafts/${id}`, {
+      method: 'DELETE',
+    }),
+
+  toggleAIDraftFavorite: (id: string) =>
+    request<{ success: boolean; message: string; isFavorite: boolean }>(
+      `/ai/drafts/${id}/favorite`,
+      {
+        method: 'POST',
+      }
+    ),
 };

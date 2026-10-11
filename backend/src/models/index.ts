@@ -16,3 +16,4 @@ export * from './CraftScoreLog';
 export * from './Review';
 export * from './Favorite';
 export * from './Report';
+export * from './ContentDraft';

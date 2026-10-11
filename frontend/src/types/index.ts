@@ -353,3 +353,125 @@ export interface ReportData {
   createdAt: string;
 }
 
+// Phase 5: AI Content Studio & Drafts
+
+export type AIContentType =
+  | 'idea'
+  | 'caption'
+  | 'script'
+  | 'reel_outline'
+  | 'campaign_concept'
+  | 'blog_outline'
+  | 'calendar'
+  | 'headline_cta'
+  | 'image_prompt';
+
+export type AIPlatform =
+  | 'instagram'
+  | 'tiktok'
+  | 'youtube'
+  | 'linkedin'
+  | 'twitter'
+  | 'blog'
+  | 'general';
+
+export interface AIProviderStatus {
+  provider: 'gemini' | 'local-heuristic';
+  mode: 'live-api' | 'offline-deterministic';
+  model: string;
+  isLiveKeyConfigured: boolean;
+  rateLimitInfo: {
+    maxPerMinute: number;
+    maxPerDay: number;
+  };
+}
+
+export interface AIUsageStats {
+  minuteCount: number;
+  minuteRemaining: number;
+  dayCount: number;
+  dayRemaining: number;
+}
+
+export interface GenerateContentRequest {
+  contentType: AIContentType;
+  prompt: string;
+  platform?: AIPlatform;
+  tone?: string;
+  brandVoice?: string;
+  targetAudience?: string;
+  language?: string;
+  campaignTitle?: string;
+  brandGuidelines?: string;
+}
+
+export interface GeneratedResult {
+  provider: 'gemini' | 'local-heuristic';
+  mode: 'live-api' | 'offline-deterministic';
+  model: string;
+  contentType: AIContentType;
+  title: string;
+  content: string;
+  formattedPreview: string;
+  metadata: {
+    hooks?: string[];
+    suggestedHashtags?: string[];
+    visualPrompts?: string[];
+    scenes?: Array<{
+      timing: string;
+      visual: string;
+      audio: string;
+      speech: string;
+    }>;
+    calendarEvents?: Array<{
+      day: string;
+      platform: string;
+      contentType: string;
+      hook: string;
+      cta: string;
+    }>;
+    headlines?: string[];
+    callsToAction?: string[];
+    imagePromptData?: {
+      prompt: string;
+      aspectRatio: string;
+      negativePrompt: string;
+      styleKeywords: string[];
+    };
+  };
+  disclosureGuidance: {
+    requiresSyntheticLabel: boolean;
+    recommendedLabels: string[];
+    platformPolicyNotes: Record<string, string>;
+  };
+}
+
+export interface DraftRevisionData {
+  revisionId: string;
+  content: string;
+  action: 'initial' | 'edit' | 'regenerate' | 'shorten' | 'expand';
+  note?: string;
+  createdAt: string;
+}
+
+export interface ContentDraftData {
+  _id: string;
+  userId: string;
+  title: string;
+  contentType: AIContentType;
+  platform: AIPlatform;
+  tone?: string;
+  brandVoice?: string;
+  targetAudience?: string;
+  language: string;
+  inputPrompt: string;
+  campaignId?: any;
+  currentContent: string;
+  revisions: DraftRevisionData[];
+  metadata: Record<string, any>;
+  isFavorite: boolean;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+

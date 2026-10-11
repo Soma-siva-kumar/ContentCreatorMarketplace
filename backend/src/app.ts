@@ -14,6 +14,7 @@ import applicationRoutes from './routes/application.routes';
 import collaborationRoutes from './routes/collaboration.routes';
 import { conversationRoutes } from './routes/conversation.routes';
 import { notificationRoutes } from './routes/notification.routes';
+import { aiStudioRoutes } from './routes/aiStudio.routes';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler';
 
 export function createApp(): Application {
@@ -57,6 +58,7 @@ export function createApp(): Application {
   app.use('/api/collaborations', collaborationRoutes);
   app.use('/api/conversations', conversationRoutes);
   app.use('/api/notifications', notificationRoutes);
+  app.use('/api/ai', aiStudioRoutes);
 
   // 404 & Central Error Handling
   app.use(notFoundHandler);

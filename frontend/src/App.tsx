@@ -18,6 +18,7 @@ import { CampaignDetailPage } from './pages/CampaignDetailPage';
 import { CampaignBuilderPage } from './pages/CampaignBuilderPage';
 import { CollaborationsPage } from './pages/CollaborationsPage';
 import { MessagesPage } from './pages/MessagesPage';
+import { AIStudioPage } from './pages/AIStudioPage';
 
 export const App: React.FC = () => {
   return (
@@ -36,6 +37,7 @@ export const App: React.FC = () => {
             {/* Marketplace & Discovery */}
             <Route path="/marketplace" element={<MarketplacePage />} />
             <Route path="/marketplace/creator/:id" element={<CreatorDetailPage />} />
+            <Route path="/ai-studio" element={<AIStudioPage />} />
 
             {/* Campaigns */}
             <Route path="/campaigns" element={<CampaignsExplorePage />} />
